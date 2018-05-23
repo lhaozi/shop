@@ -1,0 +1,50 @@
+/**
+	创建数据库专用
+**/
+//创建用户表(uid, account,password,nickname,avatar,locked,usertype)
+CREATE TABLE IF NOT EXISTS `UserAccount`(
+	`uid` INT UNSIGNED AUTO_INCREMENT comment '用户ID',
+	`account` varchar(20) NOT NULL comment '用户账号',
+	`pass` varchar(20) comment '用户密码',
+	`nickname` varchar(40) comment '用户昵称',
+	`avatar` varchar(80) comment '用户头像',
+	`locked` int NOT NULL comment '用户锁定',
+	`usertype` tinyint(1) NOT NULL default 2 comment '用户类型1-系统管理员，2为普通用户，默认为2',
+	PRIMARY KEY ( `uid` )
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+//创建用户详情表UserDetail(uid,phone,sex,realname,birthday,idcard,address,registertime,lastvisittime,thirdavatar)
+CREATE TABLE IF NOT EXISTS `UserDetail`(
+	`uid` INT UNSIGNED comment '用户ID',
+	`phone` varchar(20) comment '用户手机号',
+	`sex` tinyint(1) comment '性别用1-男，2-女',
+	`realname` varchar(40) comment '真实姓名',
+	`birthday` date comment '生日',
+	`idcard` varchar(20) comment '身份证号',
+	`address` varchar(80) comment '所在地址',
+	`registertime` datetime NOT NULL comment '注册时间',
+	`lastvisittime` datetime comment '最后访问时间',
+	`thirdavatar` varchar(80) comment '第三方用户头像',
+	foreign key(uid) references UserAccount(uid)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+//用户授权表UserAuth(authid,uid,indentitytype,identifier)
+CREATE TABLE IF NOT EXISTS `UserAuth`(
+	`authid` INT UNSIGNED comment '授权记录ID',
+	`uid` INT UNSIGNED comment '用户ID',
+	`indentitytype` tinyint(1) comment '登录第三方类型用1-weixin，2-weibo',
+	`identifier` varchar(40) comment '第三方唯一标识',
+	PRIMARY KEY ( `authid` , `uid`),
+	foreign key(uid) references UserAccount(uid)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+//用户token表UserToken(uid,token,expired)
+CREATE TABLE IF NOT EXISTS `UserToken`(
+	`uid` INT UNSIGNED comment '用户ID',
+	`token` varchar(100) comment '用户的tokenMd5',
+	`expired` tinyint(1) comment '是否失效1-不失效，-1-失效',
+	foreign key(uid) references UserAccount(uid)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+

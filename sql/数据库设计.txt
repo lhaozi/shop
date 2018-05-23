@@ -1,0 +1,24 @@
+数据库设计(weshop)
+
+模块
+
+- [ ] 用户
+       用户登录表   UserAccount(uid, account,password,nickname,avatar,locked,usertype)
+       用户详细表   UserDetail(uid,phone,sex,realname,birthday,idcard,address,registertime,lastvisittime,thirdavatar,thirdphone)
+       用户授权表   UserAuth(authid,uid,indentitytype,identifier)
+       用户token表 UserToken(uid,token,expired)
+       短信验证码   Vcode(phone,code,type,expired)
+- [ ] 商品
+       商品类别表   ProductsCategory(categoryid,parid,categoryname)
+       商品信息表   ProductsInfo(pid,pname,title,categoryid,abstract,previewimg,ishot,isbest,isnew,isfree,info,createtime,updatetime)
+       商品价格类别  ProductsPriceLabel(pid,price,inventory,label)
+- [ ] 订单
+       订单信息主表 Order(oid,uid,pid,paytype,ordertime,totalprices,freight,status,maxpaytime,)
+       订单明细表     OrderDeatail(oid,uid,pid,buynums)
+       #支付表            Pay(payno,paytype,thirdpayno,status,payamount,paytime,oid)
+       退款记录         Refuse(oid,totalprices,status,payno)
+       #商品发货         Delivery()
+- [ ] 收藏              Cart（uid,pid,goodsnum）
+
+
+进货
